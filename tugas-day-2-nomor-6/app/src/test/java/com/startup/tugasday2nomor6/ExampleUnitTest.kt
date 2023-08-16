@@ -1,4 +1,4 @@
-package com.startup.tugas_day_2_nomor_6
+package com.startup.tugasday2nomor6
 
 import org.junit.Test
 

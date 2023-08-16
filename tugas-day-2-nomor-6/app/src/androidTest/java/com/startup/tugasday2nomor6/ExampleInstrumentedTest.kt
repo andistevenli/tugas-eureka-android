@@ -1,4 +1,4 @@
-package com.startup.tugas_day_2_nomor_6
+package com.startup.tugasday2nomor6
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.startup.tugas_day_2_nomor_6", appContext.packageName)
+        assertEquals("com.startup.tugasday2nomor6", appContext.packageName)
     }
 }
