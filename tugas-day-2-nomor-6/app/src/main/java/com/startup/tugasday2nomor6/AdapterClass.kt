@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class AdapterClass(private val dataList: ArrayList<Profil>):RecyclerView.Adapter<AdapterClass.ViewHolderClass>() {
@@ -28,9 +29,9 @@ class AdapterClass(private val dataList: ArrayList<Profil>):RecyclerView.Adapter
 
     class ViewHolderClass(itemView: View):RecyclerView.ViewHolder(itemView) {
         val rvFoto: ImageView=itemView.findViewById(R.id.id_foto)
-        val rvNama: ImageView=itemView.findViewById(R.id.id_nama)
-        val rvEmail: ImageView=itemView.findViewById(R.id.id_email)
-        val rvJurusan: ImageView=itemView.findViewById(R.id.id_jurusan)
-        val rvSemester: ImageView=itemView.findViewById(R.id.id_semester)
+        val rvNama: TextView =itemView.findViewById(R.id.id_nama)
+        val rvEmail: TextView=itemView.findViewById(R.id.id_email)
+        val rvJurusan: TextView=itemView.findViewById(R.id.id_jurusan)
+        val rvSemester: TextView=itemView.findViewById(R.id.id_semester)
     }
 }
