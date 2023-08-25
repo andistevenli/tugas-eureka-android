@@ -11,8 +11,11 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 
-class GithubUsersAdapter(private val githubUsersDataList: ArrayList<GithubUsers>):
+class GithubUsersAdapter():
     RecyclerView.Adapter<GithubUsersAdapter.MyViewHolder>() {
+
+    private val githubUsersDataList= arrayListOf<GithubUsers>()
+
     class MyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         val fotoProfil: ImageView=itemView.findViewById(R.id.ivFotoProfil)
         val username: TextView=itemView.findViewById(R.id.tvUsername)

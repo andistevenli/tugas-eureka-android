@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "801907741163",
+    "project_id": "bukuku-82f73",
+    "storage_bucket": "bukuku-82f73.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:801907741163:android:7b37516c979347014889ae",
+        "android_client_info": {
+          "package_name": "com.startup.bukuku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "801907741163-mdljsisn5ie5vtm1a3ho65m5pl0dcp1h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLeGNers3EZ36qyuYSDyWcnUF5c1AkCWE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "801907741163-mdljsisn5ie5vtm1a3ho65m5pl0dcp1h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screen.activities.detail_buku.DetailBukuActivity"
+    android:padding="24dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/ivDetailFotoBuku"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/ivDetailFotoBuku"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="@string/judul_buku"
+            android:textSize="20dp"
+            android:textColor="@color/subtitle"
+            android:id="@+id/labelJudulBuku"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/labelJudulBuku"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:textSize="24dp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/title"
+            android:id="@+id/tvJudulBuku"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvJudulBuku"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="@string/nama_penerbit"
+            android:textColor="@color/subtitle"
+            android:id="@+id/labelNamaPenerbit"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/labelNamaPenerbit"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="10dp"
+            android:textSize="24dp"
+            android:textColor="@color/title"
+            android:id="@+id/tvNamaPenerbit"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvNamaPenerbit"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="@string/tahun_terbit"
+            android:textColor="@color/subtitle"
+            android:id="@+id/labelTahunTerbit"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/labelTahunTerbit"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="10dp"
+            android:textSize="24dp"
+            android:textColor="@color/title"
+            android:id="@+id/tvTahunTerbit"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textSize="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvTahunTerbit"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="@string/kategori_buku"
+            android:textColor="@color/subtitle"
+            android:id="@+id/labelKategoriBuku"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/labelKategoriBuku"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/title"
+            android:textSize="24dp"
+            android:id="@+id/tvKategoriBuku"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/tvKategoriBuku"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:textSize="20dp"
+            android:id="@+id/btnUbahBuku"
+            android:text="@string/ubah_buku"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            app:layout_constraintTop_toBottomOf="@id/btnUbahBuku"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="20dp"
+            android:id="@+id/btnHapusBuku"
+            android:text="@string/hapus_buku"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
