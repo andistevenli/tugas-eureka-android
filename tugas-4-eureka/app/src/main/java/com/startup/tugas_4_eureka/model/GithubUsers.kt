@@ -1,4 +1,4 @@
-package com.startup.tugas_4_eureka
+package com.startup.tugas_4_eureka.model
 
 data class GithubUsers (
       val login: String,
