@@ -1,9 +1,14 @@
 package com.startup.bukuku.screen.activities.tambah_buku
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.github.razir.progressbutton.attachTextChangeAnimator
+import com.github.razir.progressbutton.bindProgressButton
+import com.github.razir.progressbutton.hideProgress
+import com.github.razir.progressbutton.showProgress
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.startup.bukuku.databinding.ActivityTambahBukuBinding
@@ -19,16 +24,39 @@ class TambahBukuActivity : AppCompatActivity() {
         bindingTambahBuku = ActivityTambahBukuBinding.inflate(layoutInflater)
         setContentView(bindingTambahBuku.root)
 
-        //inisialisasi koneksi database
-        dbRef = FirebaseDatabase.getInstance().getReference("Books")
+        //memakai package punya Anton Hadutski
+        bindProgressButton(bindingTambahBuku.btnTambahBuku)
+
+
 
         bindingTambahBuku.btnTambahBuku.setOnClickListener(){
             addBookData()
-            Log.d("DEBUG","berhasil")
+
+            bindingTambahBuku.btnTambahBuku.attachTextChangeAnimator {
+
+                fadeOutMills = 150 // current text fade out time in milliseconds. default 150
+                fadeInMills = 150 // current text fade in time in milliseconds. default 150
+
+                useCurrentTextColor = false // by default is true. handling text color based on the current color settings
+
+                textColor = Color.WHITE // override button text color with single color
+            }
+
+            bindingTambahBuku.btnTambahBuku.showProgress {
+                buttonText = "Loading . . ."
+                progressColor = Color.WHITE
+            }
+
+            bindingTambahBuku.btnTambahBuku.hideProgress("Tambah Buku")
+
+            finish()
         }
     }
 
     private fun addBookData(){
+        //inisialisasi koneksi database
+        dbRef = FirebaseDatabase.getInstance().getReference("Books")
+
         //get value
         val linkFotoBuku: String = bindingTambahBuku.etLinkFotoBuku.text.toString()
         val judulBuku : String= bindingTambahBuku.etJudulBuku.text.toString()
@@ -56,17 +84,13 @@ class TambahBukuActivity : AppCompatActivity() {
             bindingTambahBuku.etTahunTerbit.error = "tahun terbit tidak valid"
             allowAddBook = false
         }
-        if (tahunTerbitBuku.substring(0,1) == "0"){
-            bindingTambahBuku.etTahunTerbit.error = "tahun terbit tidak valid"
-            allowAddBook = false
-        }
         if (kategoriBuku.isEmpty()){
             bindingTambahBuku.etKategoriBuku.error = "kategori buku wajib diisi"
             allowAddBook = false
         }
 
         if (allowAddBook){
-            //id harus unik
+            //biarkan firebase buat id unik secara otomatis
             val idBuku = dbRef.push().key!!
 
             val buku = BukuModel(idBuku,linkFotoBuku,judulBuku,namaPenerbitBuku,tahunTerbitBuku,kategoriBuku)
@@ -84,7 +108,5 @@ class TambahBukuActivity : AppCompatActivity() {
                     Log.e("ERROR","gagal")
                 }
         }
-
-
     }
 }

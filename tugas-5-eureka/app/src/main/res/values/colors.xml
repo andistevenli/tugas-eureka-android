@@ -9,5 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="title">#4A4A4A</color>
     <color name="subtitle">#7E7E7E</color>
-    <color name="shimmer_color">#EDEDED</color>
+    <color name="shimmer_color">#858585</color>
 </resources>

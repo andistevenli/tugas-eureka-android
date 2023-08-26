@@ -10,19 +10,27 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.database.FirebaseDatabase
+import com.kennyc.view.MultiStateView
 import com.squareup.picasso.Picasso
 import com.startup.bukuku.R
 import com.startup.bukuku.databinding.ActivityDetailBukuBinding
 import com.startup.bukuku.model.BukuModel
 import com.startup.bukuku.screen.activities.daftar_buku.DaftarBukuActivity
 
-class DetailBukuActivity : AppCompatActivity() {
+class DetailBukuActivity : AppCompatActivity(), MultiStateView.StateListener {
     private lateinit var bindingDetailBuku: ActivityDetailBukuBinding
+    private lateinit var multiStateView: MultiStateView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindingDetailBuku = ActivityDetailBukuBinding.inflate(layoutInflater)
         setContentView(bindingDetailBuku.root)
+
+        multiStateView = bindingDetailBuku.stateDetailBuku
+        multiStateView.listener = this
+        multiStateView.viewState = MultiStateView.ViewState.LOADING
+
+        setValuesToViews()
 
         bindingDetailBuku.btnUbahBuku.setOnClickListener(){
             openUpdateDialog(intent.getStringExtra("idBuku").toString())
@@ -31,8 +39,6 @@ class DetailBukuActivity : AppCompatActivity() {
         bindingDetailBuku.btnHapusBuku.setOnClickListener(){
             openDeleteDialog(intent.getStringExtra("idBuku").toString())
         }
-
-        setValuesToViews()
     }
 
     private fun openDeleteDialog(idBuku: String){
@@ -60,8 +66,6 @@ class DetailBukuActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Data Buku Gagal Diubah",Toast.LENGTH_SHORT).show()
             }
         }
-
-
     }
 
     private fun openUpdateDialog(idBuku: String){
@@ -85,7 +89,9 @@ class DetailBukuActivity : AppCompatActivity() {
 
         myDialog.setTitle("Ubah Data Buku")
 
-        myDialog.create().show()
+        val alertDialog = myDialog.create()
+
+        alertDialog.show()
 
         btnUbahBuku.setOnClickListener(){
             updateDataBuku(idBuku, etLinkFotoBuku.text.toString(), etJudulBuku.text.toString(), etPenerbitBuku.text.toString(), etTahunTerbitBuku.text.toString(), etKategoriBuku.text.toString())
@@ -97,10 +103,8 @@ class DetailBukuActivity : AppCompatActivity() {
             bindingDetailBuku.tvTahunTerbit.text = etTahunTerbitBuku.text
             bindingDetailBuku.tvKategoriBuku.text = etKategoriBuku.text
 
-            myDialog.create().cancel()
+            alertDialog.dismiss()
         }
-
-
     }
 
     private fun updateDataBuku(idBuku: String, linkFotoBuku: String, judulBuku: String, penerbitBuku: String, tahunTerbitBuku: String, kategoriBuku: String){
@@ -117,10 +121,25 @@ class DetailBukuActivity : AppCompatActivity() {
     }
 
     private fun setValuesToViews(){
-        Picasso.get().load(intent.getStringExtra("linkFotoBuku")).placeholder(R.drawable.ic_baseline_image_24).into(bindingDetailBuku.ivDetailFotoBuku)
-        bindingDetailBuku.tvJudulBuku.text = intent.getStringExtra("judulBuku")
-        bindingDetailBuku.tvNamaPenerbit.text = intent.getStringExtra("penerbitBuku")
-        bindingDetailBuku.tvTahunTerbit.text = intent.getStringExtra("tahunTerbitBuku")
-        bindingDetailBuku.tvKategoriBuku.text = intent.getStringExtra("kategoriBuku")
+        val judulBuku = intent.getStringExtra("judulBuku")
+        val linkFotoBuku = intent.getStringExtra("linkFotoBuku")
+        val penerbitBuku = intent.getStringExtra("penerbitBuku")
+        val tahuntTerbitBuku = intent.getStringExtra("tahunTerbitBuku")
+        val kategoriBuku = intent.getStringExtra("kategoriBuku")
+
+        if (linkFotoBuku != null && judulBuku != null && penerbitBuku != null && tahuntTerbitBuku != null && kategoriBuku != null){
+            multiStateView.viewState = MultiStateView.ViewState.CONTENT
+            Picasso.get().load(linkFotoBuku).placeholder(R.drawable.ic_baseline_image_24).into(bindingDetailBuku.ivDetailFotoBuku)
+            bindingDetailBuku.tvJudulBuku.text = judulBuku
+            bindingDetailBuku.tvNamaPenerbit.text = penerbitBuku
+            bindingDetailBuku.tvTahunTerbit.text = tahuntTerbitBuku
+            bindingDetailBuku.tvKategoriBuku.text = kategoriBuku
+        } else {
+            multiStateView.viewState = MultiStateView.ViewState.EMPTY
+        }
+    }
+
+    override fun onStateChanged(viewState: MultiStateView.ViewState) {
+        Log.v("MSVSample", "onStateChanged; viewState: $viewState")
     }
 }

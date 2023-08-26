@@ -13,6 +13,7 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bindingSplashScreen = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(bindingSplashScreen.root)
+
         bindingSplashScreen.ivLogo.alpha = 0f
         bindingSplashScreen.ivLogo.animate().setDuration(3000).alpha(1f).withEndAction {
             val intentToMainActivity = Intent(this, DaftarBukuActivity::class.java)

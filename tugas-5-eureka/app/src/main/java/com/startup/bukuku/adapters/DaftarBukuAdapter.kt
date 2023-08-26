@@ -10,7 +10,7 @@ import com.startup.bukuku.R
 import com.startup.bukuku.databinding.ItemBukuBinding
 import com.startup.bukuku.model.BukuModel
 
-class DaftarBukuAdapter(private val dataBuku: ArrayList<BukuModel>) : RecyclerView.Adapter<DaftarBukuAdapter.MyViewHolder>() {
+class DaftarBukuAdapter(private val dataList: ArrayList<BukuModel>) : RecyclerView.Adapter<DaftarBukuAdapter.MyViewHolder>() {
 
     private lateinit var myListener: onItemClickListener
 
@@ -36,13 +36,13 @@ class DaftarBukuAdapter(private val dataBuku: ArrayList<BukuModel>) : RecyclerVi
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currentItem = dataBuku[position]
+        val currentItem = dataList[position]
         Picasso.get().load(currentItem.linkFotoBuku).placeholder(R.drawable.ic_baseline_image_24).into(holder.binding.ivFotoBuku)
         holder.binding.tvJudulBuku.text=currentItem.judulBuku
         holder.binding.tvPenulisBuku.text=currentItem.penerbitBuku
     }
 
     override fun getItemCount(): Int {
-        return dataBuku.size
+        return dataList.size
     }
 }
