@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.kennyc.view.MultiStateView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/flFollowing"
+    android:id="@+id/stateFollowing"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:msv_errorView="@layout/layout_error"
+    app:msv_emptyView="@layout/layout_empty"
+    app:msv_loadingView="@layout/layout_loading_following"
+    app:msv_viewState="content"
     tools:context=".screens.activities.main.MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/recycler_view_item"
-        android:id="@+id/rvProfil"/>
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/recycler_view_item"
+            android:id="@+id/rvProfil"/>
+
+    </FrameLayout>
+
+</com.kennyc.view.MultiStateView>

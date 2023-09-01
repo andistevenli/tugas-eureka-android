@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">tugas-5-eureka</string>
+    <string name="judul_buku">Judul Buku</string>
+    <string name="nama_penerbit">Nama Penerbit</string>
+    <string name="tahun_terbit">Tahun Terbit</string>
+    <string name="kategori_buku">Kategori</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="ubah_buku">Ubah Buku</string>
+    <string name="hapus_buku">Hapus Buku</string>
+    <string name="link_foto_buku">Link Foto Buku</string>
+    <string name="tambah_buku">Tambah Buku</string>
+    <string name="loading">Loading . . .</string>
+</resources>

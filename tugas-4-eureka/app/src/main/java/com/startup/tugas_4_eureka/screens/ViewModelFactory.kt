@@ -17,9 +17,9 @@ class ViewModelFactory(private val repository: Repository) : ViewModelProvider.F
             return MainViewModel(repository) as T
         } else if (modelClass.isAssignableFrom(DetailUserViewModel::class.java)){
             return DetailUserViewModel(repository) as T
-        } else if (modelClass.isAssignableFrom(FollowerFragment::class.java)){
+        } else if (modelClass.isAssignableFrom(FollowerViewModel::class.java)){
             return FollowerViewModel(repository) as T
-        } else if (modelClass.isAssignableFrom(FollowingFragment::class.java)){
+        } else if (modelClass.isAssignableFrom(FollowingViewModel::class.java)){
             return FollowingViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

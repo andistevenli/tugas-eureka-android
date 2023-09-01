@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "418054069182",
+    "project_id": "tugas-4-eureka",
+    "storage_bucket": "tugas-4-eureka.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:418054069182:android:d19d6085cd244844cd77ef",
+        "android_client_info": {
+          "package_name": "com.startup.tugas_4_eureka"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "418054069182-prp76njn5eieoo930qo60e10dkov3mms.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwzWlNMHAldL2il755MyLRwhcbScNMN68"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "418054069182-prp76njn5eieoo930qo60e10dkov3mms.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

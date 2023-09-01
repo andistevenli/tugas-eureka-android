@@ -1,6 +1,10 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'kotlin-kapt'
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -13,7 +17,8 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        buildConfigField("String", "BASE_URL", "\"https://api.github.com\"")
+        buildConfigField("String", "TOKEN","\"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\"")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -30,7 +35,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
+    kapt {
+        correctErrorTypes = true
+    }
     buildFeatures {
         viewBinding true
         dataBinding true
@@ -43,10 +50,18 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.4.1'
+    implementation 'com.google.firebase:firebase-analytics-ktx:21.3.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'com.google.android.material:material:1.2.1'
+
+    //untuk mempermudah deklarasi view model
+    implementation 'androidx.activity:activity-ktx:1.5.2'
+    //versi 1.6 ke atas ga kompatibel dengan versi kotlin
+    implementation 'androidx.fragment:fragment-ktx:1.5.1'
+    //versi 1.6 ke atas ga kompatibel dengan versi kotlin
 
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -65,11 +80,19 @@ dependencies {
 
     //ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
-    //versi 2.6.1 ada bug
+    //versi 2.6.1 ga kompatibel dengan versi kotlin
+
+    //biar ga usah deklarasi variabel live data
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
+    //versi 2.6.1 ga kompatibel dengan versi kotlin
 
     //shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     //state management
     implementation  'com.github.Kennyc1012:MultiStateView:2.2.0'
+
+    //DI Hilt
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
 }

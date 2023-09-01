@@ -34,6 +34,7 @@ class GithubUsersAdapter():
         holder.itemView.setOnClickListener {
             val intentToDetailUser = Intent(holder.context,DetailUser::class.java)
             intentToDetailUser.putExtra("username", holder.binding.tvUsername.text)
+            intentToDetailUser.putExtra("link_foto_profil", myList[position].avatar_url)
             it.context.startActivity(intentToDetailUser)
         }
     }

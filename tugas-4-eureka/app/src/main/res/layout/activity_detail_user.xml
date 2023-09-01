@@ -171,7 +171,7 @@
                 android:background="@color/white"
                 android:layout_marginVertical="24dp"
                 app:tabInlineLabel="true"
-                app:tabTextColor="@color/teal_700"
+                app:tabTextColor="@color/black"
                 app:tabIndicatorColor="@color/teal_700"
                 app:tabSelectedTextColor="@color/teal_700"
                 app:tabTextAppearance="@style/TextAppearance.AppCompat.Small">
@@ -179,7 +179,7 @@
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/follower"/>
+                    android:text="@string/follower" />
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
