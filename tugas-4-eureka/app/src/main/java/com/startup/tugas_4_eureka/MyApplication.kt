@@ -5,5 +5,5 @@ import dagger.hilt.android.HiltAndroidApp
 
 //inisialisasi hilt, sebagai basis dari project untuk memanfaatkan hilt
 @HiltAndroidApp
-open class MyApplication : Application() {
+open class  MyApplication : Application() {
 }
