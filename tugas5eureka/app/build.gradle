@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id 'kotlin-kapt'
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -63,6 +65,10 @@ dependencies {
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1"
 
+    //biar ga usah deklarasi variabel live data
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
+    //versi 2.6.1 ga kompatibel dengan versi kotlin
+
     //shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
@@ -75,4 +81,8 @@ dependencies {
     //kotlin couroutine
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+
+    //DI Hilt
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
 }

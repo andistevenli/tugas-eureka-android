@@ -9,6 +9,7 @@ import com.startup.tugas_5_eureka.ui.activities.hapus_buku.HapusBukuViewModel
 import com.startup.tugas_5_eureka.ui.activities.tambah_buku.TambahBukuViewModel
 import com.startup.tugas_5_eureka.ui.activities.ubah_buku.UbahBukuViewModel
 
+//jika sudah implementasi di hilt, tidak usah pakai factory seperti ini lagi
 class ViewModelFactory(private val repository: Repository): ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
