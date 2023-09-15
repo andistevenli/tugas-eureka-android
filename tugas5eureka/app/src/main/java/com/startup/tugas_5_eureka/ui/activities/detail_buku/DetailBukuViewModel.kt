@@ -7,9 +7,18 @@ import androidx.lifecycle.viewModelScope
 import com.startup.tugas_5_eureka.firebase.Hasil
 import com.startup.tugas_5_eureka.model.BukuModel
 import com.startup.tugas_5_eureka.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailBukuViewModel(private val repository: Repository) : ViewModel() {
+@HiltViewModel
+class DetailBukuViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+    /***
+    *   This method is to get book detail that connected to repository
+     *   @param idBuku to get the book id
+     *   @author Andi
+     *   @since September 15th, 2023
+    * */
     fun getBuku(idBuku: String) : LiveData<Hasil<BukuModel>> {
         return  repository.getDetailBuku(idBuku)
     }

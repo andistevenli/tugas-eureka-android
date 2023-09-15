@@ -28,8 +28,7 @@ class DaftarBukuAdapter(private var myList : List<BukuModel>) : RecyclerView.Ada
         holder.binding.tvPenulisBuku.text=currentItem.penerbitBuku
         holder.itemView.setOnClickListener{
             val intentToDetailBuku = Intent(holder.context, DetailBukuActivity::class.java)
-            intentToDetailBuku.putExtra("id_buku",currentItem.idBuku)
-            intentToDetailBuku.putExtra("link_cover_buku",currentItem.linkCoverBuku)
+            intentToDetailBuku.putExtra(DetailBukuActivity.EXTRA_ID_BUKU, currentItem.idBuku)
             it.context.startActivity(intentToDetailBuku)
         }
     }

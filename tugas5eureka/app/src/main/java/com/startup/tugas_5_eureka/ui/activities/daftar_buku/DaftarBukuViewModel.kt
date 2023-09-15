@@ -7,8 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.startup.tugas_5_eureka.firebase.Hasil
 import com.startup.tugas_5_eureka.model.BukuModel
 import com.startup.tugas_5_eureka.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DaftarBukuViewModel(private val repository: Repository) : ViewModel() {
+@HiltViewModel
+class DaftarBukuViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
     val listBuku: LiveData<Hasil<List<BukuModel>>> = repository.getListBuku()
 }

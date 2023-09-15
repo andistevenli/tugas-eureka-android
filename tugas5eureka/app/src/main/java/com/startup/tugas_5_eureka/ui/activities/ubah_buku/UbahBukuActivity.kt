@@ -3,34 +3,29 @@ package com.startup.tugas_5_eureka.ui.activities.ubah_buku
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
+import android.widget.Toast
+import androidx.activity.viewModels
 import com.github.razir.progressbutton.attachTextChangeAnimator
 import com.github.razir.progressbutton.bindProgressButton
 import com.github.razir.progressbutton.hideProgress
 import com.github.razir.progressbutton.showProgress
-import com.startup.tugas_5_eureka.R
 import com.startup.tugas_5_eureka.databinding.ActivityUbahBukuBinding
-import com.startup.tugas_5_eureka.repository.Repository
-import com.startup.tugas_5_eureka.ui.activities.ViewModelFactory
-import com.startup.tugas_5_eureka.ui.activities.tambah_buku.TambahBukuViewModel
+import com.startup.tugas_5_eureka.firebase.Hasil
+import com.startup.tugas_5_eureka.utils.ImageLinkChecker
+import dagger.hilt.android.AndroidEntryPoint
+import java.util.Calendar
 
+@AndroidEntryPoint
 class UbahBukuActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityUbahBukuBinding
-    private lateinit var repository: Repository
-    private lateinit var viewModelFactory: ViewModelFactory
-    private lateinit var viewModel: UbahBukuViewModel
+    private val viewModel: UbahBukuViewModel by viewModels()
     private var allowEditBook: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUbahBukuBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        repository = Repository()
-        viewModelFactory = ViewModelFactory(repository)
-
-        viewModel = ViewModelProvider(this, viewModelFactory)[UbahBukuViewModel::class.java]
 
         //memakai package punya Anton Hadutski
         bindProgressButton(binding.btnYakinUbahBuku)
@@ -59,17 +54,35 @@ class UbahBukuActivity : AppCompatActivity() {
 
             finish()
         }
+
+        internetConnectionHandler()
     }
 
+    /***
+    *   this method is to add value to the edit text
+     *   @author Andi
+     *   @since September 15th, 2023
+    * */
     private fun setUpEditText(){
-        binding.etLinkFotoBuku.setText(intent.getStringExtra("link_cover_buku"))
-        binding.etJudulBuku.setText(intent.getStringExtra("judul_buku"))
-        binding.etPenerbitBuku.setText(intent.getStringExtra("penerbit_buku"))
-        binding.etTahunTerbit.setText(intent.getStringExtra("tahun_terbit_buku"))
-        binding.etKategoriBuku.setText(intent.getStringExtra("kategori_buku"))
+        binding.etLinkFotoBuku.setText(intent.getStringExtra(EXTRA_LINK_COVER_BUKU))
+        binding.etJudulBuku.setText(intent.getStringExtra(EXTRA_JUDUL_BUKU))
+        binding.etPenerbitBuku.setText(intent.getStringExtra(EXTRA_PENERBIT_BUKU))
+        binding.etTahunTerbit.setText(intent.getStringExtra(EXTRA_TAHUN_TERBIT_BUKU))
+        binding.etKategoriBuku.setText(intent.getStringExtra(EXTRA_KATEGORI_BUKU))
     }
 
+    /***
+    *   this method is to impelment the view model
+     *   @author Andi
+     *   @since September 15th, 2023
+    * */
     private fun setUpViewModel(){
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        val tahunTerbit : Int = binding.etTahunTerbit.text.toString().toInt()
+        if (!ImageLinkChecker.checkImageLinkExtention(binding.etLinkFotoBuku.text.toString())){
+            binding.etLinkFotoBuku.error = "link foto buku tidak valid"
+            allowEditBook = false
+        }
         if (binding.etLinkFotoBuku.text.isEmpty()){
             binding.etLinkFotoBuku.error = "link foto buku wajib diisi"
             allowEditBook = false
@@ -90,11 +103,13 @@ class UbahBukuActivity : AppCompatActivity() {
             binding.etTahunTerbit.error = "tahun terbit tidak valid"
             allowEditBook = false
         }
+        if (tahunTerbit > currentYear){
+            binding.etTahunTerbit.error = "maaf, kami belum melayani buku dari masa depan"
+        }
         if (binding.etKategoriBuku.text.isEmpty()){
             binding.etKategoriBuku.error = "kategori buku wajib diisi"
             allowEditBook = false
         }
-
         if (allowEditBook){
             viewModel.editBook(
                 intent.getStringExtra("id_buku").toString(),
@@ -104,5 +119,32 @@ class UbahBukuActivity : AppCompatActivity() {
                 binding.etTahunTerbit.text.toString(),
                 binding.etKategoriBuku.text.toString())
         }
+    }
+
+    /***
+     *   this method is to check user's internet connection
+     *   @author Andi
+     *   @since Septembet 15th, 2023
+     * */
+    private fun internetConnectionHandler(){
+        viewModel.result.observe(this) {
+            when(it){
+                is Hasil.Error -> Toast.makeText(
+                    this,
+                    it.error,
+                    Toast.LENGTH_SHORT
+                ).show()
+                else -> {}
+            }
+        }
+    }
+
+    companion object {
+        const val EXTRA_ID_BUKU = "id_buku"
+        const val EXTRA_LINK_COVER_BUKU = "link_cover_buku"
+        const val EXTRA_JUDUL_BUKU = "judul_buku"
+        const val EXTRA_PENERBIT_BUKU = "penerbit_buku"
+        const val EXTRA_TAHUN_TERBIT_BUKU = "tahun_terbit_buku"
+        const val EXTRA_KATEGORI_BUKU = "kategori_buku"
     }
 }

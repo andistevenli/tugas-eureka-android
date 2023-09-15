@@ -3,32 +3,27 @@ package com.startup.tugas_5_eureka.ui.activities.detail_buku
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.kennyc.view.MultiStateView
 import com.squareup.picasso.Picasso
 import com.startup.tugas_5_eureka.R
-import com.startup.tugas_5_eureka.adapters.DaftarBukuAdapter
 import com.startup.tugas_5_eureka.databinding.ActivityDetailBukuBinding
 import com.startup.tugas_5_eureka.firebase.Hasil
-import com.startup.tugas_5_eureka.repository.Repository
-import com.startup.tugas_5_eureka.ui.activities.ViewModelFactory
-import com.startup.tugas_5_eureka.ui.activities.daftar_buku.DaftarBukuActivity
-import com.startup.tugas_5_eureka.ui.activities.daftar_buku.DaftarBukuViewModel
 import com.startup.tugas_5_eureka.ui.activities.hapus_buku.HapusBukuViewModel
 import com.startup.tugas_5_eureka.ui.activities.ubah_buku.UbahBukuActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailBukuActivity : AppCompatActivity(), MultiStateView.StateListener {
 
     private lateinit var binding: ActivityDetailBukuBinding
-    private lateinit var detailBukuViewModel: DetailBukuViewModel
-    private lateinit var hapusBukuViewModel: HapusBukuViewModel
+    private  val detailBukuViewModel: DetailBukuViewModel by viewModels()
+    private  val hapusBukuViewModel: HapusBukuViewModel by viewModels()
     private lateinit var multiStateView: MultiStateView
-    private lateinit var repository: Repository
-    private lateinit var viewModelFactory: ViewModelFactory
-    private lateinit var linkCoverBuku: String
+    private lateinit var linkCoverBuku : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,28 +33,31 @@ class DetailBukuActivity : AppCompatActivity(), MultiStateView.StateListener {
         multiStateView = binding.stateDetailBuku
         multiStateView.listener = this
 
-        repository = Repository()
-        viewModelFactory = ViewModelFactory(repository)
-
-        detailBukuViewModel = ViewModelProvider(this, viewModelFactory)[DetailBukuViewModel::class.java]
         setUpViewModel()
 
         binding.btnUbahBuku.setOnClickListener {
             val intentToUbahBuku= Intent(this, UbahBukuActivity::class.java)
-            intentToUbahBuku.putExtra("id_buku", intent.getStringExtra("id_buku"))
-            intentToUbahBuku.putExtra("link_cover_buku", intent.getStringExtra("link_cover_buku"))
-            intentToUbahBuku.putExtra("judul_buku", binding.tvJudulBuku.text)
-            intentToUbahBuku.putExtra("penerbit_buku", binding.tvNamaPenerbit.text)
-            intentToUbahBuku.putExtra("tahun_terbit_buku", binding.tvTahunTerbit.text)
-            intentToUbahBuku.putExtra("kategori_buku", binding.tvKategoriBuku.text)
+            intentToUbahBuku.putExtra(UbahBukuActivity.EXTRA_ID_BUKU, intent.getStringExtra("id_buku"))
+            intentToUbahBuku.putExtra(UbahBukuActivity.EXTRA_LINK_COVER_BUKU, linkCoverBuku)
+            intentToUbahBuku.putExtra(UbahBukuActivity.EXTRA_JUDUL_BUKU, binding.tvJudulBuku.text)
+            intentToUbahBuku.putExtra(UbahBukuActivity.EXTRA_PENERBIT_BUKU, binding.tvNamaPenerbit.text)
+            intentToUbahBuku.putExtra(UbahBukuActivity.EXTRA_TAHUN_TERBIT_BUKU, binding.tvTahunTerbit.text)
+            intentToUbahBuku.putExtra(UbahBukuActivity.EXTRA_KATEGORI_BUKU, binding.tvKategoriBuku.text)
             startActivity(intentToUbahBuku)
         }
 
         binding.btnHapusBuku.setOnClickListener {
             openDeleteDialog()
         }
+
+        internetConnectionHandler()
     }
 
+    /***
+    *   this method is to open dialog for deletation confirm dialog
+     *   @author Andi
+     *   @since September 15th
+    * */
     private fun openDeleteDialog(){
         val deleteDialog = AlertDialog.Builder(this)
             .setTitle("Konfirmasi Penghapusan Data")
@@ -71,32 +69,67 @@ class DetailBukuActivity : AppCompatActivity(), MultiStateView.StateListener {
 
         myAlertDialog.show()
 
-        hapusBukuViewModel = ViewModelProvider(this, viewModelFactory)[HapusBukuViewModel::class.java]
-
         val myPositiveButton = myAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
         myPositiveButton.setOnClickListener {
-            hapusBukuViewModel.deleteBook(intent.getStringExtra("id_buku").toString())
+            hapusBukuViewModel.deleteBook(EXTRA_ID_BUKU)
             finish()
         }
     }
 
+    /***
+     *  this method is to implement view model and get the data and show them to the view
+     *  @author Andi
+     *  @since September 15th, 2023
+    *
+    * */
     private fun setUpViewModel() {
         detailBukuViewModel.getBuku(intent.getStringExtra("id_buku").toString()).observe(this) {result ->
             when(result){
                 is Hasil.Loading -> multiStateView.viewState = MultiStateView.ViewState.LOADING
                 is Hasil.Empty -> multiStateView.viewState = MultiStateView.ViewState.EMPTY
-                is Hasil.Error -> multiStateView.viewState = MultiStateView.ViewState.ERROR
+                is Hasil.Error -> {
+                    multiStateView.viewState = MultiStateView.ViewState.ERROR
+                    val error = binding.stateDetailBuku.getView(MultiStateView.ViewState.ERROR)
+                    if (error != null){
+                        val refresh = error.findViewById<Button>(R.id.btnRefreshDetailBuku)
+                        refresh.setOnClickListener {
+                            setUpViewModel()
+                        }
+                    }
+                }
                 is Hasil.Success -> {
                     multiStateView.viewState = MultiStateView.ViewState.CONTENT
-                    Picasso.get().load(intent.getStringExtra("link_cover_buku")).into(binding.ivDetailFotoBuku)
+                    Picasso.get().load(result.data.linkCoverBuku).into(binding.ivDetailFotoBuku)
                     binding.tvJudulBuku.text = result.data.judulBuku
                     binding.tvNamaPenerbit.text = result.data.penerbitBuku
                     binding.tvTahunTerbit.text = result.data.tahunTerbitBuku
                     binding.tvKategoriBuku.text = result.data.kategoriBuku
+                    linkCoverBuku = result.data.linkCoverBuku.toString()
                 }
             }
         }
     }
 
     override fun onStateChanged(viewState: MultiStateView.ViewState) {}
+
+    /***
+     *   this method is to check user's internet connection
+     *   @author Andi
+     *   @since Septembet 15th, 2023
+     * */
+    private fun internetConnectionHandler(){
+        hapusBukuViewModel.result.observe(this) {
+            when(it){
+                is Hasil.Error -> Toast.makeText(
+                    this,
+                    it.error,
+                    Toast.LENGTH_SHORT
+                ).show()
+                else -> {}
+            }
+        }
+    }
+    companion object {
+        const val EXTRA_ID_BUKU = "id_buku"
+    }
 }
